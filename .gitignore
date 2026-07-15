@@ -1,0 +1,85 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+
+# Environment Variables
+.env
+*.env
+
+# SQLite Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+
+# Frontend Build
+dist/
+build/
+
+# Vite
+.vite/
+
+# Coverage
+coverage/
+
+# Temporary Files
+*.tmp
+*.bak
+
+# Uploads
+uploads/
+
+# Generated Reports
+reports/
+
+# AI Models
+models/
+*.pt
+*.pth
+*.onnx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets
+secrets.json
+credentials.json
