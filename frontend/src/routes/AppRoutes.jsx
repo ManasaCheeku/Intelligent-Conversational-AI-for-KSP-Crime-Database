@@ -1,22 +1,26 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+
 // Import Pages (Placeholder imports - adjust paths according to your structure)
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import Dashboard from '../pages/Dashboard';
-import AIAssistant from '../pages/AIAssistant';
-import CrimeAnalytics from '../pages/CrimeAnalytics';
-import CrimeMap from '../pages/CrimeMap';
-import NetworkAnalysis from '../pages/NetworkAnalysis';
-import OffenderProfiling from '../pages/OffenderProfiling';
-import InvestigatorSupport from '../pages/InvestigatorSupport';
-import FinancialCrime from '../pages/FinancialCrime';
-import CrimeForecast from '../pages/CrimeForecast';
-import ExplainableAI from '../pages/ExplainableAI';
-import Settings from '../pages/Settings';
-import Profile from '../pages/Profile';
-import NotFound from '../pages/NotFound';
+
+import Home from "../pages/Home/Home";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import AIAssistant from "../pages/AIAssistant/AIAssistant";
+import CrimeAnalytics from "../pages/CrimeAnalytics/CrimeAnalytics";
+import CrimeMap from "../pages/CrimeMap/CrimeMap";
+import NetworkAnalysis from "../pages/NetworkAnalysis/NetworkAnalysis";
+import OffenderProfiling from "../pages/OffenderProfiling/OffenderProfiling";
+import InvestigatorSupport from "../pages/InvestigatorSupport/InvestigatorSupport";
+import FinancialCrime from "../pages/FinancialCrime/FinancialCrime";
+import CrimeForecast from "../pages/CrimeForecast/CrimeForecast";
+import ExplainableAI from "../pages/ExplainableAI/ExplainableAI";
+import Profile from "../pages/Profile/Profile";
+import Settings from "../pages/Settings/Settings";
+import Users from "../pages/Users/Users";
+import NotFound from "../pages/NotFound/NotFound";
 
 // Mock Auth Hook (Replace with your actual Auth Context hook, e.g., useAuth())
 const useAuth = () => {
