@@ -1,0 +1,6 @@
+import { useState } from "react";
+import { Search } from "lucide-react";
+import { CrimeCard } from "../components/crime/CrimeCard";
+import { crimeService } from "../services/crimeService";
+import type { Crime } from "../types/crime";
+export function CrimeSearchPage() { const [query, setQuery] = useState(""); const [results, setResults] = useState<Crime[]>([]); const [loading, setLoading] = useState(false); const search = async () => { if (!query.trim()) return; setLoading(true); try { setResults(await crimeService.list({ query })); } finally { setLoading(false); } }; return <main className="page-shell"><div className="page-heading"><p className="eyebrow">Search</p><h1>Search crime reports</h1><p>Search your authorized report records by number, title, or text.</p></div><div className="search-panel"><div className="search-bar"><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void search()} placeholder="e.g. KSP-2026-000001 or cyber fraud" /><button className="primary-button" onClick={() => void search()} disabled={loading}>{loading ? "Searching…" : "Search"}</button></div></div>{results.length > 0 && <div className="card-grid results-grid">{results.map((crime) => <CrimeCard key={crime.id} crime={crime} />)}</div>}</main>; }

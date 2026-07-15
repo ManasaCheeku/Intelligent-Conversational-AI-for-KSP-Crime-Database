@@ -73,6 +73,8 @@ reports/
 
 # AI Models
 models/
+!backend/app/models/
+!backend/app/models/*.py
 *.pt
 *.pth
 *.onnx

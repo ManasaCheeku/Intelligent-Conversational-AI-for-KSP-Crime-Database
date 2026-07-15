@@ -1,0 +1,11 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
+import "./styles/globals.css";
+const root = document.getElementById("root");
+if (!root) throw new Error("Root element is missing");
+createRoot(root).render(<StrictMode><BrowserRouter><AuthProvider><App /><ToastContainer position="top-right" theme="colored" /></AuthProvider></BrowserRouter></StrictMode>);

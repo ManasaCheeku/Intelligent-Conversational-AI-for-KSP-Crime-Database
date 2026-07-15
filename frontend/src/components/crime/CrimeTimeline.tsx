@@ -1,0 +1,3 @@
+import type { Crime } from "../../types/crime";
+import { labelize } from "../../types/crime";
+export function CrimeTimeline({ crime }: { crime: Crime }) { const items = [{ label: "Report submitted", at: crime.created_at }, ...(crime.assigned_officer_id ? [{ label: "Officer assigned", at: crime.assigned_at || crime.updated_at }] : []), ...(crime.status !== "pending" ? [{ label: `Status: ${labelize(crime.status)}`, at: crime.updated_at }] : [])]; return <section className="timeline"><h2>Case timeline</h2>{items.map((item, index) => <div className="timeline-item" key={`${item.label}-${index}`}><span /><div><strong>{item.label}</strong><p>{new Date(item.at).toLocaleString()}</p></div></div>)}</section>; }

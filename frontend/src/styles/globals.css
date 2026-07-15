@@ -1,59 +1,13 @@
+@import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html {
-  color-scheme: dark;
-}
-
-body {
-  @apply bg-base-900 text-ink-100 font-body antialiased;
-  background-image:
-    radial-gradient(circle at 15% 0%, rgba(43,217,201,0.06), transparent 40%),
-    radial-gradient(circle at 100% 20%, rgba(139,126,240,0.05), transparent 45%);
-}
-
-::selection {
-  background: rgba(43, 217, 201, 0.3);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #26324A;
-  border-radius: 8px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3A4A66;
-}
-
-:focus-visible {
-  outline: 2px solid #2BD9C9;
-  outline-offset: 2px;
-}
-
-.bg-panel-grid {
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.leaflet-container {
-  background: #0B1120 !important;
-  font-family: 'Inter', sans-serif;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #eaf4ff; background: #06152a; font-synthesis: none; }
+* { box-sizing: border-box; } body { margin: 0; min-width: 320px; min-height: 100vh; background: radial-gradient(circle at 5% 5%, #0a4b7e 0, transparent 34rem), #06152a; } button, input, select { font: inherit; } button { cursor: pointer; } button:disabled { cursor: wait; opacity: .65; }
+.auth-shell { min-height: 100vh; display: grid; grid-template-columns: minmax(280px, .9fr) minmax(320px, 520px); align-items: center; gap: clamp(2rem, 8vw, 9rem); padding: 2rem clamp(1.25rem, 8vw, 10rem); }
+.auth-brand { padding: 2rem; }.auth-brand svg { color:#65c9ff; }.auth-brand h1, .dashboard h1 { font-size: clamp(2.2rem, 4vw, 4rem); margin:.3rem 0 .7rem; line-height:1.05; }.auth-brand p:not(.eyebrow) { color:#bcd7ec; max-width: 26rem; font-size:1.1rem; line-height:1.6; }.eyebrow { color:#78ccfa; letter-spacing:.15em; font-weight:700; font-size:.72rem; text-transform:uppercase; margin:0; }
+.auth-card { background:rgba(255,255,255,.97); color:#10253e; border-radius: 20px; padding: clamp(1.5rem, 4vw, 2.7rem); box-shadow: 0 20px 55px rgba(0,0,0,.28); }.auth-card h2 { margin:0; font-size:1.8rem; }.muted { color:#526579; margin:.45rem 0 1.6rem; }.auth-card form { display:grid; gap:1rem; }.auth-card label { display:grid; gap:.42rem; color:#263d54; font-size:.87rem; font-weight:700; }.auth-card input, .auth-card select { width:100%; border:1px solid #c7d4e0; border-radius:8px; padding:.75rem .85rem; color:#10253e; background:#fff; outline-color:#198aca; }.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }.password-input { display:flex; border:1px solid #c7d4e0; border-radius:8px; overflow:hidden; }.password-input input { border:0; }.password-input button { border:0; background:#fff; color:#36536e; padding:0 .75rem; }.primary-button, .secondary-button { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:8px; border:0; font-weight:700; padding:.8rem 1rem; }.primary-button { background:#0878b8; color:white; margin-top:.4rem; }.primary-button:hover { background:#05669e; }.secondary-button { border:1px solid #90bfd9; background:transparent; color:#eaf4ff; }.form-error { color:#b42318; background:#fff0ef; border-left:3px solid #dc2626; padding:.7rem; margin:0 0 1rem; font-size:.9rem; }.switch-link { text-align:center; color:#526579; font-size:.9rem; }.switch-link a, .simple-page a { color:#0674b1; font-weight:700; }.screen-loader, .simple-page { min-height:100vh; display:grid; place-content:center; text-align:center; padding:2rem; }.dashboard { min-height:100vh; padding:clamp(1.25rem, 6vw, 5rem); }.dashboard header { display:flex; justify-content:space-between; align-items:start; gap:1rem; }.dashboard header p { color:#c5d9e8; }.dashboard strong { text-transform:capitalize; }.status-card { max-width:720px; display:flex; gap:1rem; margin-top:3rem; padding:1.5rem; background:#fff; color:#112a43; border-radius:14px; }.status-card svg { color:#0878b8; flex:none; }.status-card h2 { margin:0 0 .4rem; font-size:1.1rem; }.status-card p { margin:0; color:#536a7f; line-height:1.55; }
+@media (max-width: 760px) { .auth-shell { grid-template-columns:1fr; gap:1rem; padding:1.25rem; }.auth-brand { padding:1rem 0; }.form-grid { grid-template-columns:1fr; }.dashboard header { flex-direction:column; }.auth-brand h1 { font-size:2.35rem; } }
+.page-shell { max-width:1200px; margin:0 auto; padding:clamp(1.25rem,4vw,3.5rem); }.page-heading { margin-bottom:2rem; }.page-heading h1 { margin:.35rem 0 .6rem; font-size:clamp(2rem,4vw,3rem); }.page-heading>p:not(.eyebrow) { color:#bfd3e5; margin:0; }.page-actions { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; }.button-row { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1rem; }.crime-form, .detail-card, .filter-sidebar, .search-panel { background:#fff; color:#132d45; border-radius:14px; padding:clamp(1rem,3vw,2rem); box-shadow:0 12px 32px rgba(0,0,0,.14); }.crime-form { display:grid; gap:1rem; max-width:900px; }.crime-form label, .filter-sidebar label, .investigation label { display:grid; gap:.42rem; font-weight:700; color:#31495f; font-size:.87rem; }.crime-form input, .crime-form select, .crime-form textarea, .filter-sidebar input, .filter-sidebar select, .investigation select, .investigation textarea { width:100%; border:1px solid #c5d4df; border-radius:8px; padding:.72rem; color:#112a43; background:white; outline-color:#0878b8; resize:vertical; }.field-error { color:#b42318; }.map-picker { overflow:hidden; border-radius:10px; border:1px solid #c9d9e4; }.map-picker .leaflet-container { height:300px; z-index:0; }.map-picker p { padding:.6rem .8rem; margin:0; color:#587085; font-size:.85rem; }.upload-zone { min-height:110px; border:1.5px dashed #78a9c7; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; color:#166896; cursor:pointer; background:#f2faff; }.upload-zone small { color:#587085; }.upload-zone input { position:absolute; opacity:0; width:1px; height:1px; }.file-list, .evidence-list { list-style:none; padding:0; margin:1rem 0; display:grid; gap:.55rem; }.file-list li, .evidence-list li { display:flex; align-items:center; justify-content:space-between; gap:.8rem; padding:.65rem .75rem; border-radius:8px; background:#eff6fa; color:#274660; }.file-list button { border:0; background:none; color:#a52b2b; }.crime-list-layout { display:grid; grid-template-columns:260px 1fr; gap:1.4rem; align-items:start; }.filter-sidebar { display:grid; gap:1rem; position:sticky; top:1rem; }.filter-sidebar>div { display:flex; justify-content:space-between; align-items:center; }.filter-sidebar h2 { margin:0; font-size:1.1rem; }.filter-sidebar button, .text-button { border:0; background:none; color:#0878b8; font-weight:700; }.search-bar { display:flex; align-items:center; gap:.6rem; background:#fff; padding:.5rem .75rem; color:#31516b; border-radius:10px; box-shadow:0 7px 20px rgba(0,0,0,.12); margin-bottom:1.25rem; }.search-bar input { border:0; outline:0; flex:1; min-width:0; padding:.45rem; }.search-bar .primary-button { margin:0; white-space:nowrap; }.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }.crime-card { display:flex; flex-direction:column; gap:.6rem; color:#15314a; background:#fff; border-radius:12px; padding:1.1rem; box-shadow:0 8px 25px rgba(0,0,0,.14); }.card-top, .crime-card footer, .crime-meta { display:flex; justify-content:space-between; align-items:center; gap:.5rem; }.crime-card h3 { margin:.25rem 0 0; font-size:1.05rem; }.crime-card p { margin:0; }.crime-type { color:#0878b8; font-weight:700; font-size:.85rem; }.crime-description { color:#526b80; font-size:.9rem; line-height:1.45; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }.crime-meta { color:#5a7287; font-size:.8rem; }.crime-meta span { display:flex; align-items:center; gap:.25rem; }.crime-card footer { margin-top:auto; padding-top:.5rem; }.crime-card footer a { color:#0878b8; font-weight:700; text-decoration:none; font-size:.9rem; }.tag, .status { border-radius:999px; font-size:.72rem; padding:.28rem .55rem; font-weight:700; text-transform:capitalize; }.tag.low { background:#e7f6ef; color:#157a45; }.tag.medium { background:#e5f2fb; color:#086ca5; }.tag.high { background:#fff0d7; color:#a15b00; }.tag.critical { background:#ffe7e7; color:#ae2525; }.status { background:#e5f2fb; color:#086ca5; }.status.resolved { background:#e7f6ef; color:#157a45; }.status.rejected { background:#ffe7e7; color:#ae2525; }.status.under_investigation, .status.assigned { background:#fff0d7; color:#a15b00; }.case-number { font-size:.72rem; color:#71889a; font-weight:700; }.content-loader, .empty-state { min-height:220px; display:grid; place-content:center; text-align:center; color:#c8dcea; }.empty-state { background:rgba(255,255,255,.08); border-radius:12px; }.results-grid { margin-top:1.25rem; }.details-grid { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(260px,.75fr); gap:1.3rem; align-items:start; }.detail-card { margin-bottom:1.3rem; }.detail-card h2 { font-size:1.12rem; margin:0 0 1rem; }.detail-card dl { display:grid; grid-template-columns:150px 1fr; gap:.8rem; margin:0 0 1.5rem; }.detail-card dt { font-weight:700; color:#526c82; }.detail-card dd { margin:0; display:flex; align-items:center; gap:.35rem; }.prose { white-space:pre-wrap; color:#365168; line-height:1.6; }.timeline { padding:1.3rem; border-radius:14px; background:rgba(255,255,255,.1); }.timeline h2 { margin-top:0; }.timeline-item { display:flex; gap:.75rem; padding:.25rem 0 1.1rem; }.timeline-item>span { width:11px; height:11px; margin-top:.25rem; border-radius:50%; background:#71cef8; box-shadow:0 0 0 4px rgba(113,206,248,.2); }.timeline-item p { margin:.25rem 0; color:#c6dae9; font-size:.85rem; }.investigation { max-width:800px; display:grid; gap:1rem; }.danger-button { display:inline-flex; align-items:center; gap:.45rem; color:#fff; background:#b52828; border:0; border-radius:8px; font-weight:700; padding:.8rem 1rem; }
+@media (max-width:760px) { .crime-list-layout, .details-grid { grid-template-columns:1fr; }.filter-sidebar { position:static; }.page-actions { align-items:flex-start; flex-direction:column; }.detail-card dl { grid-template-columns:1fr; gap:.25rem; } }
+.assignment-title { display:flex; gap:.7rem; align-items:flex-start; }.assignment-title svg { color:#0878b8; flex:none; }.assignment-title h2 { margin:0; }.assignment-title p { margin:.25rem 0 1rem; color:#5c7488; }.officer-search { display:flex !important; align-items:center; gap:.5rem; border:1px solid #c5d4df; border-radius:8px; padding:.2rem .65rem; color:#526c82; }.officer-search input { border:0 !important; outline:0; }.officer-options { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.65rem; margin:1rem 0; max-height:280px; overflow:auto; }.officer-option { text-align:left; display:grid; gap:.2rem; padding:.8rem; border:1px solid #c9d9e4; background:#f8fbfd; border-radius:9px; color:#163a55; }.officer-option:hover, .officer-option.selected { border-color:#0878b8; background:#e8f6fe; box-shadow:0 0 0 2px rgba(8,120,184,.14); }.officer-option span { color:#1f6590; font-size:.84rem; }.officer-option small, .no-officers { color:#617a8d; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:1rem; margin-top:1.4rem; }.stats-grid article { background:rgba(255,255,255,.1); border:1px solid rgba(157,211,244,.25); border-radius:12px; padding:1rem; display:grid; gap:.2rem; }.stats-grid strong { font-size:1.8rem; color:#7bd4ff; }.stats-grid span { color:#d3e7f5; font-size:.88rem; }
+.command-grid { display:grid; grid-template-columns:1.5fr 1fr; gap:1.2rem; margin-top:1.2rem; }.section-title { display:flex; align-items:center; gap:.55rem; margin-bottom:1rem; }.section-title h2 { margin:0; flex:1; }.section-title a { color:#0878b8; font-weight:700; }.case-table { width:100%; border-collapse:collapse; font-size:.9rem; }.case-table th, .case-table td { text-align:left; padding:.65rem .35rem; border-bottom:1px solid #dde8ef; }.case-table td small { display:block; color:#668096; margin-top:.2rem; }.case-table a { color:#0878b8; font-weight:700; }.notification, .activity { border-bottom:1px solid #dce8ef; padding:.7rem 0; }.notification.unread { border-left:3px solid #0878b8; padding-left:.65rem; }.notification p, .activity p { margin:.25rem 0; color:#526b80; }.notification small, .activity small { color:#7890a1; }.map-placeholder { min-height:220px; display:grid; place-content:center; background:#e9f4fa; color:#527188; text-align:center; border-radius:10px; padding:1rem; }.ai-panel h2 { display:flex; gap:.5rem; align-items:center; }.ai-panel select { border:1px solid #c5d4df; border-radius:8px; padding:.7rem; }.ai-response { white-space:pre-wrap; max-height:420px; overflow:auto; background:#071a2d; color:#e4f4ff; padding:1rem; border-radius:9px; line-height:1.5; font-family:inherit; } @media (max-width:760px) { .command-grid { grid-template-columns:1fr; }.case-table { display:block; overflow-x:auto; } }

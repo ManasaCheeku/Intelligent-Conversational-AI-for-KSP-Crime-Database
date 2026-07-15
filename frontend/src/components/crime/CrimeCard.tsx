@@ -1,0 +1,4 @@
+import { Link } from "react-router-dom";
+import { MapPin, CalendarDays } from "lucide-react";
+import { labelize, type Crime } from "../../types/crime";
+export function CrimeCard({ crime }: { crime: Crime }) { return <article className="crime-card"><div className="card-top"><span className={`tag ${crime.priority}`}>{labelize(crime.priority)}</span><span className="case-number">{crime.crime_number}</span></div><h3>{crime.title}</h3><p className="crime-type">{labelize(crime.crime_type)}</p><p className="crime-description">{crime.description}</p><div className="crime-meta"><span><CalendarDays size={15} />{crime.incident_date}</span><span><MapPin size={15} />{crime.district}</span></div><footer><span className={`status ${crime.status}`}>{labelize(crime.status)}</span><Link to={`/crimes/${crime.id}`}>Open report</Link></footer></article>; }
