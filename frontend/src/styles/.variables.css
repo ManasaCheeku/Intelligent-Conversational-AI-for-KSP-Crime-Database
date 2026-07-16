@@ -1,0 +1,241 @@
+/* ==========================================================================
+   KSP-IntelliCrime-AI — Global Design Tokens
+   Police / Crime Intelligence Platform Design System
+   --------------------------------------------------------------------------
+   Inspired by: Palantir Gotham, IBM Carbon, Microsoft Fluent,
+                Azure Security Center, Splunk, CrowdStrike Falcon
+   --------------------------------------------------------------------------
+   NOTE ON BACKWARD COMPATIBILITY:
+   Every variable that existed in the original variables.css is preserved
+   below, unchanged in name. Where a value could be safely refined without
+   altering how it reads on screen (e.g. slightly better shadow softness),
+   it was tuned — no variable was renamed, removed, or repurposed. All new
+   tokens are additive and organized into clearly labeled sections so the
+   file can scale as the product grows.
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     1. TYPOGRAPHY
+     ========================================================================== */
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Fira Code, ui-monospace, monospace;
+
+  /* ==========================================================================
+     2. THEME BACKGROUNDS (existing — unchanged)
+     ========================================================================== */
+  --color-bg-primary: #06152a;
+  --color-bg-secondary: #071a2d;
+  --color-bg-sidebar: #081a33;
+  --color-bg-sidebar-footer: #051224;
+  --color-bg-panel-dark: #112a43;
+  --color-bg-light: #ffffff;
+  --color-bg-light-alt: #f8fbfd;
+  --color-bg-accent-light: #eff6fa;
+  --color-bg-accent-sky: #e8f6fe;
+  --color-bg-accent-blue: #e9f4fa;
+  --color-bg-translucent: rgba(255, 255, 255, 0.97);
+  --color-bg-card-dark: rgba(255, 255, 255, 0.08);
+  --color-bg-upload: #f2faff;
+  --color-gradient-primary: radial-gradient(circle at 5% 5%, #0a4b7e 0, transparent 34rem), #06152a;
+
+  /* ==========================================================================
+     3. TEXT COLORS (existing — unchanged)
+     ========================================================================== */
+  --color-text-light: #eaf4ff;
+  --color-text-dark: #10253e;
+  --color-text-muted-light: #bcd7ec;
+  --color-text-muted-dark: #526c82;
+  --color-text-secondary-light: #c5d9e8;
+  --color-text-secondary-dark: #536a7f;
+  --color-text-helper-dark: #263d54;
+  --color-text-helper-light: #bfd3e5;
+
+  /* ==========================================================================
+     4. BRAND AND ACCENT COLORS (existing — unchanged)
+     ========================================================================== */
+  --color-brand-primary: #198aca;
+  --color-brand-primary-hover: #14729f;
+  --color-brand-secondary: #0674b1;
+  --color-accent-sky: #65c9ff;
+  --color-accent-blue: #78ccfa;
+  --color-accent-cyan: #7bd4ff;
+  --color-accent-soft-blue: #71cef8;
+  --color-brand-danger: #b52828;
+
+  /* -- New: supporting brand tints, additive only ------------------------- */
+  --color-brand-primary-light: #4fb0e6;
+  --color-brand-primary-dark: #0d5d8f;
+  --color-brand-ink: #041426;
+
+  /* ==========================================================================
+     5. BORDERS AND OUTLINES (existing — unchanged)
+     ========================================================================== */
+  --color-border-dark: #1a3a5a;
+  --color-border-light: #c7d4e0;
+  --color-border-card: #c9d9e4;
+  --color-border-form: #c5d4df;
+  --color-border-table: #dde8ef;
+  --color-border-upload: #78a9c7;
+  --color-outline-focus: #198aca;
+  --color-outline-brand: #198aca;
+
+  /* -- New: focus ring system ---------------------------------------------- */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-outline-focus);
+  --focus-ring: 0 0 0 var(--focus-ring-offset) var(--color-bg-primary),
+    0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+
+  /* ==========================================================================
+     6. FEEDBACK STATE COLORS (existing — unchanged)
+     ========================================================================== */
+  --color-error-text: #b42318;
+  --color-error-bg: #fff0ef;
+  --color-error-border: #dc2626;
+
+  /* ==========================================================================
+     7. TAG & STATUS COLORS (existing — unchanged)
+     ========================================================================== */
+  --color-low-bg: #e7f6ef;
+  --color-low-text: #157a45;
+  --color-medium-bg: #e5f2fb;
+  --color-medium-text: #086ca5;
+  --color-high-bg: #fff0d7;
+  --color-high-text: #a15b00;
+  --color-critical-bg: #ffe7e7;
+  --color-critical-text: #ae2525;
+
+  /* ==========================================================================
+     8. LAYOUT AND GEOMETRY (existing — unchanged, plus new scale)
+     ========================================================================== */
+  --border-radius-lg: 20px;
+  --border-radius-md: 14px;
+  --border-radius-sm: 8px;
+  --border-radius-full: 999px;
+
+  /* -- New: extended radius scale for finer control ------------------------ */
+  --border-radius-xs: 4px;
+  --border-radius-xl: 28px;
+  --border-radius-2xl: 36px;
+
+  /* ==========================================================================
+     9. SHADOWS (existing — unchanged, plus new elevation + glow tokens)
+     ========================================================================== */
+  --shadow-lg: 0 20px 55px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.14);
+  --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.14);
+  --shadow-xs: 0 7px 20px rgba(0, 0, 0, 0.12);
+
+  /* -- New: interactive & card-specific shadows ---------------------------- */
+  --shadow-blue: 0 10px 30px rgba(25, 138, 202, 0.35);
+  --shadow-card: 0 10px 28px rgba(6, 21, 42, 0.16);
+  --shadow-hover: 0 16px 40px rgba(6, 21, 42, 0.24);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* ==========================================================================
+     10. INTELLIGENCE GRADIENTS
+     Signature gradients for the command-center surfaces.
+     ========================================================================== */
+  --gradient-intel-primary: linear-gradient(135deg, #06152a 0%, #0a3c66 55%, #14729f 100%);
+  --gradient-intel-secondary: linear-gradient(135deg, #071a2d 0%, #0d5d8f 100%);
+  --gradient-intel-sidebar: linear-gradient(180deg, #081a33 0%, #051224 100%);
+  --gradient-intel-card: linear-gradient(160deg, rgba(17, 42, 67, 0.9) 0%, rgba(6, 21, 42, 0.95) 100%);
+  --gradient-intel-success: linear-gradient(135deg, #0f5c3c 0%, #157a45 100%);
+  --gradient-intel-warning: linear-gradient(135deg, #8a5300 0%, #a15b00 100%);
+  --gradient-intel-danger: linear-gradient(135deg, #7a1f1f 0%, #ae2525 100%);
+
+  /* ==========================================================================
+     11. GLASSMORPHISM
+     Frosted-glass panels used for overlays, command bars, AI widgets.
+     ========================================================================== */
+  --glass-bg: rgba(17, 42, 67, 0.55);
+  --glass-bg-light: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-blur: blur(18px);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+
+  /* ==========================================================================
+     12. AI THEME
+     Visual language for AI-generated insights, copilot chips, and predictions.
+     ========================================================================== */
+  --ai-glow: 0 0 24px rgba(101, 201, 255, 0.45);
+  --ai-border: rgba(101, 201, 255, 0.4);
+  --ai-bg: linear-gradient(135deg, rgba(25, 138, 202, 0.16) 0%, rgba(101, 201, 255, 0.08) 100%);
+  --ai-chip-bg: rgba(101, 201, 255, 0.14);
+  --ai-chip-text: #7bd4ff;
+  --ai-chip-border: rgba(123, 212, 255, 0.35);
+
+  /* ==========================================================================
+     13. POLICE THEME
+     Institutional identity colors used sparingly for badges, seals, and marks.
+     ========================================================================== */
+  --police-blue: #0a3c66;
+  --police-gold: #c9a227;
+  --police-dark: #041426;
+
+  /* ==========================================================================
+     14. CRIME PRIORITY COLORS
+     Case severity indicators used across incident lists, maps, and tables.
+     ========================================================================== */
+  --priority-low: #157a45;
+  --priority-medium: #086ca5;
+  --priority-high: #a15b00;
+  --priority-critical: #ae2525;
+
+  /* ==========================================================================
+     15. DASHBOARD CHART PALETTE
+     Consistent series colors for analytics, graphs, and heatmaps.
+     ========================================================================== */
+  --chart-blue: #198aca;
+  --chart-green: #22a06b;
+  --chart-orange: #e08a1e;
+  --chart-yellow: #e0c531;
+  --chart-red: #d64545;
+  --chart-purple: #8b5cf6;
+
+  /* ==========================================================================
+     16. SUCCESS / WARNING SURFACES
+     Background + border pairs for alert banners and inline status.
+     ========================================================================== */
+  --success-bg: #e7f6ef;
+  --success-border: #157a45;
+  --warning-bg: #fff0d7;
+  --warning-border: #a15b00;
+
+  /* ==========================================================================
+     17. ANIMATION
+     Timing tokens for transitions and micro-interactions.
+     ========================================================================== */
+  --anim-fast: 120ms;
+  --anim-normal: 220ms;
+  --anim-slow: 400ms;
+  --anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ==========================================================================
+     18. SPACING SCALE
+     ========================================================================== */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* ==========================================================================
+     19. Z-INDEX TOKENS
+     Centralized stacking order to prevent overlay conflicts.
+     ========================================================================== */
+  --z-navbar: 100;
+  --z-sidebar: 200;
+  --z-dropdown: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-loader: 600;
+
+  /* ==========================================================================
+     20. SKELETON LOADING
+     ========================================================================== */
+  --skeleton-color: #16324f;
+  --skeleton-highlight: #1e4a70;
+}

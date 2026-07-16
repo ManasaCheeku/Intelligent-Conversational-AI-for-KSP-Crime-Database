@@ -1,0 +1,884 @@
+/* ============================================================================
+   KSP-IntelliCrime-AI — animations.css
+   Enterprise-grade animation system for an AI-powered Police Crime
+   Intelligence Dashboard.
+
+   Notes:
+   - All original animations/utilities are preserved and untouched in
+     behavior (only easing/timing refined where explicitly requested).
+   - New sections are additive and namespaced to avoid collisions.
+   - Animations favor `transform` + `opacity` only (GPU-friendly, no
+     layout reflow). Where box-shadow/background are used (glow, shimmer,
+     ripple) they are isolated to their own composited layer via
+     `will-change` to minimize repaint cost.
+   - See the accessibility section at the bottom for the
+     `prefers-reduced-motion` implementation.
+   ============================================================================ */
+
+/* ============================================================================
+   1. CORE KEYFRAMES (existing — refined easing only, logic unchanged)
+   ============================================================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================================================
+   2. CORE UTILITIES (existing — timing curve upgraded to enterprise easing)
+   ============================================================================ */
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-spin-slow {
+  animation: spin 1.5s linear infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* ============================================================================
+   3. INTERACTION TRANSITIONS (existing)
+   ============================================================================ */
+
+.transition-all-smooth {
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.transition-color-smooth {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ============================================================================
+   4. SKELETON PLACEHOLDER (existing — smoother gradient sweep)
+   ============================================================================ */
+
+.skeleton-loader {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 25%, rgba(255, 255, 255, 0.15) 37%, rgba(255, 255, 255, 0.08) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-pulse 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: background-position;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============================================================================
+   5. ENTRANCE KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeScale {
+  0% {
+    transform: scale(0.97);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    transform: translateY(8px) scale(0.995);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   6. HOVER KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes cardHover {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.85;
+  }
+}
+
+/* ============================================================================
+   7. DASHBOARD KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes countUpGlow {
+  0% {
+    opacity: 0.4;
+    text-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.55);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.65;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes chartReveal {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes progressFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ============================================================================
+   8. AI EFFECT KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes aiGlow {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.35), 0 0 0 rgba(56, 189, 248, 0);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.7), 0 0 32px rgba(56, 189, 248, 0.25);
+  }
+}
+
+@keyframes typingDots {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes thinkingPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.8), 0 0 14px rgba(99, 102, 241, 0.35);
+  }
+}
+
+@keyframes neuralFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* ============================================================================
+   9. NOTIFICATION KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes toastIn {
+  from {
+    transform: translateY(-10px) translateX(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastOut {
+  from {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-8px) translateX(8px);
+    opacity: 0;
+  }
+}
+
+@keyframes notificationShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+/* ============================================================================
+   10. MODAL KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes modalOpen {
+  from {
+    transform: translateY(16px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modalClose {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(12px) scale(0.97);
+    opacity: 0;
+  }
+}
+
+@keyframes backdropFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   11. BUTTON KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ============================================================================
+   12. POLICE INTELLIGENCE THEME KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes dataStream {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -200px;
+  }
+}
+
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes evidenceFlash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ============================================================================
+   13. LOADING KEYFRAMES (new)
+   ============================================================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes loaderRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loaderPulse {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loaderDots {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   14. ENTRANCE UTILITIES (new)
+   ============================================================================ */
+
+.animate-slide-down {
+  animation: slideDown 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-fade-scale {
+  animation: fadeScale 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-page-enter {
+  animation: pageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ============================================================================
+   15. HOVER UTILITIES (new)
+   ============================================================================ */
+
+.animate-card-hover {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.animate-card-hover:hover {
+  animation: cardHover 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.animate-floating {
+  animation: floating 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-icon-bounce:hover {
+  animation: iconBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-soft-pulse {
+  animation: softPulse 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* ============================================================================
+   16. DASHBOARD UTILITIES (new)
+   ============================================================================ */
+
+.animate-count {
+  animation: countUpGlow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-radar {
+  position: relative;
+  animation: radarPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  transform-origin: center;
+}
+
+.animate-chart-reveal {
+  animation: chartReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: bottom;
+}
+
+.animate-progress {
+  animation: progressFill 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left;
+}
+
+/* ============================================================================
+   17. AI EFFECT UTILITIES (new)
+   ============================================================================ */
+
+.animate-ai-glow {
+  animation: aiGlow 2.4s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+.animate-typing-dot {
+  animation: typingDots 1.2s ease-in-out infinite;
+}
+
+.animate-typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.animate-typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-thinking {
+  animation: thinkingPulse 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-border-glow {
+  animation: borderGlow 2.2s ease-in-out infinite;
+}
+
+.animate-neural-flow {
+  background-size: 200% 100%;
+  animation: neuralFlow 3s linear infinite;
+}
+
+/* ============================================================================
+   18. NOTIFICATION UTILITIES (new)
+   ============================================================================ */
+
+.animate-toast {
+  animation: toastIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-toast-out {
+  animation: toastOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.animate-notification-shake {
+  animation: notificationShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* ============================================================================
+   19. MODAL UTILITIES (new)
+   ============================================================================ */
+
+.animate-modal {
+  animation: modalOpen 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-modal-close {
+  animation: modalClose 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.animate-backdrop-fade {
+  animation: backdropFade 0.3s ease forwards;
+}
+
+/* ============================================================================
+   20. BUTTON UTILITIES (new)
+   ============================================================================ */
+
+.animate-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-ripple::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.animate-ripple:active::after {
+  animation: ripple 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-button-press:active {
+  animation: buttonPress 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================================
+   21. POLICE INTELLIGENCE THEME UTILITIES (new)
+   ============================================================================ */
+
+.animate-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.9), transparent);
+  animation: scanLine 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+
+.animate-data-stream {
+  background-image: repeating-linear-gradient(180deg, rgba(56, 189, 248, 0.25) 0, rgba(56, 189, 248, 0.25) 2px, transparent 2px, transparent 12px);
+  animation: dataStream 1.2s linear infinite;
+}
+
+.animate-radar-sweep {
+  animation: radarSweep 3s linear infinite;
+  transform-origin: center;
+}
+
+.animate-evidence-flash {
+  animation: evidenceFlash 0.9s ease-in-out infinite;
+}
+
+/* ============================================================================
+   22. LOADING UTILITIES (new)
+   ============================================================================ */
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.05) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-loader {
+  animation: loaderRotate 0.9s linear infinite;
+}
+
+.animate-loader-pulse {
+  animation: loaderPulse 1s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-loader-dot {
+  animation: loaderDots 1.1s ease-in-out infinite;
+}
+
+.animate-loader-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.animate-loader-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ============================================================================
+   23. TRANSITION UTILITIES (new — durations)
+   ============================================================================ */
+
+.transition-fast {
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.transition-normal {
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.transition-slow {
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================================
+   24. TRANSITION UTILITIES (new — properties)
+   ============================================================================ */
+
+.transition-transform {
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+
+.transition-background {
+  transition-property: background-color, background-position;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+.transition-border {
+  transition-property: border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+
+.transition-scale {
+  transition-property: transform;
+  transition-duration: 0.25s;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================================
+   25. ACCESSIBILITY — prefers-reduced-motion
+   Disables/shortens non-essential motion for users who request it, while
+   preserving opacity-only transitions (fade) so content is not abruptly
+   hidden. All infinite decorative loops (glow, radar, shimmer, scan, etc.)
+   are frozen to their end state.
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-floating,
+  .animate-soft-pulse,
+  .animate-ai-glow,
+  .animate-thinking,
+  .animate-border-glow,
+  .animate-neural-flow,
+  .animate-radar,
+  .animate-radar-sweep,
+  .animate-scan,
+  .animate-scan::before,
+  .animate-data-stream,
+  .animate-evidence-flash,
+  .animate-shimmer,
+  .animate-loader,
+  .animate-loader-pulse,
+  .animate-loader-dot,
+  .animate-spin-slow,
+  .animate-pulse-subtle,
+  .skeleton-loader {
+    animation: none !important;
+  }
+}

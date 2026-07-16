@@ -1,0 +1,954 @@
+/* ============================================================================
+   KSP-IntelliCrime-AI · Authentication Experience
+   Enterprise Crime Intelligence Platform — Auth Module Styling
+   Section index:
+     1. Design Tokens (CSS Variables)
+     2. Global Auth Shell & Background Layers
+     3. Brand / Left Intelligence Panel
+     4. Stat & Feature Components
+     5. Auth Card (Glassmorphism)
+     6. Typography
+     7. Forms & Inputs
+     8. Password Input
+     9. Buttons
+     10. Badges, Divider, Social, Footer
+     11. Validation & Links
+     12. Animations
+     13. Accessibility
+     14. Responsive Breakpoints
+   ============================================================================ */
+
+/* ============================================================================
+   1. DESIGN TOKENS
+   All existing var() references keep their original fallback values, but are
+   now formally defined here with the platform's intelligence-console palette.
+   No existing selector, class, or declaration has been removed.
+   ============================================================================ */
+:root {
+  /* --- Core surfaces --- */
+  --ic-void: #050b14;
+  --ic-deep: #0a1626;
+  --ic-panel: #0f1f33;
+  --ic-steel: #142a42;
+  --ic-steel-hi: #1b3655;
+
+  /* --- Signal / accent colors (cyan-teal intel signal, amber alert, rose danger) --- */
+  --ic-signal: #2fd8c9;
+  --ic-signal-dim: #1ea89c;
+  --ic-alert: #f5a623;
+  --ic-danger: #e5395b;
+  --ic-success: #34d399;
+
+  /* --- Text --- */
+  --ic-text-hi: #eef4f9;
+  --ic-text-mid: #a9bdd1;
+  --ic-text-dim: #6f859b;
+
+  /* --- Borders / glass --- */
+  --ic-border: rgba(163, 197, 227, 0.16);
+  --ic-border-strong: rgba(47, 216, 201, 0.45);
+  --ic-glass-bg: rgba(9, 20, 34, 0.62);
+  --ic-glass-bg-light: rgba(255, 255, 255, 0.97);
+
+  /* --- Radii / shadow / motion --- */
+  --ic-radius-lg: 22px;
+  --ic-radius-sm: 10px;
+  --ic-shadow-lg: 0 25px 65px rgba(2, 8, 16, 0.55), 0 2px 0 rgba(47, 216, 201, 0.08) inset;
+  --ic-shadow-glow: 0 0 0 1px rgba(47, 216, 201, 0.18), 0 0 40px rgba(47, 216, 201, 0.12);
+  --ic-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ic-speed-fast: 0.18s;
+  --ic-speed-med: 0.4s;
+  --ic-speed-slow: 1.1s;
+
+  /* --- Mapped legacy variable names (keeps every existing selector working,
+         but now themed to the intelligence-console palette instead of
+         generic defaults) --- */
+  --color-accent-sky: var(--ic-signal);
+  --color-text-muted-light: var(--ic-text-mid);
+  --color-accent-blue: var(--ic-signal-dim);
+  --color-bg-translucent: var(--ic-glass-bg);
+  --color-text-dark: var(--ic-text-hi);
+  --border-radius-lg: var(--ic-radius-lg);
+  --shadow-lg: var(--ic-shadow-lg);
+  --color-text-muted-dark: var(--ic-text-mid);
+  --color-text-helper-dark: var(--ic-text-hi);
+  --color-border-light: var(--ic-border);
+  --border-radius-sm: var(--ic-radius-sm);
+  --color-bg-light: rgba(255, 255, 255, 0.04);
+  --color-outline-focus: var(--ic-signal);
+  --color-error-text: #ffb4bf;
+  --color-error-bg: rgba(229, 57, 91, 0.1);
+  --color-error-border: var(--ic-danger);
+  --color-brand-secondary: var(--ic-signal);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-light: #ffffff;
+  }
+}
+
+/* ============================================================================
+   2. GLOBAL AUTH SHELL & BACKGROUND LAYERS
+   ============================================================================ */
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 520px);
+  align-items: center;
+  gap: clamp(2rem, 8vw, 9rem);
+  padding: 2rem clamp(1.25rem, 8vw, 10rem);
+
+  /* --- new: command-center backdrop --- */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 600px at 12% 8%, rgba(47, 216, 201, 0.08), transparent 60%),
+    radial-gradient(900px 700px at 90% 85%, rgba(47, 216, 201, 0.06), transparent 55%),
+    linear-gradient(180deg, var(--ic-void), var(--ic-deep) 60%, var(--ic-void));
+  color: var(--ic-text-hi);
+}
+
+/* Grid overlay — subtle cyber schematic lines */
+.auth-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(163, 197, 227, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(163, 197, 227, 0.05) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse at 20% 30%, black, transparent 75%);
+  pointer-events: none;
+}
+
+/* Blur glow circles */
+.auth-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 620px;
+  height: 620px;
+  left: -180px;
+  top: -160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47, 216, 201, 0.16), transparent 70%);
+  filter: blur(10px);
+  animation: float 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.auth-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================================
+   3. BRAND / LEFT INTELLIGENCE PANEL
+   ============================================================================ */
+.auth-brand {
+  padding: 2rem;
+}
+
+.auth-brand svg {
+  color: var(--color-accent-sky, #65c9ff);
+}
+
+.auth-brand h1 {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  margin: 0.3rem 0 0.7rem;
+  line-height: 1.05;
+  font-family: "Space Grotesk", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, var(--ic-text-hi) 0%, var(--ic-text-hi) 55%, var(--ic-signal) 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.auth-brand p:not(.eyebrow) {
+  color: var(--color-text-muted-light, #bcd7ec);
+  max-width: 26rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  color: var(--color-accent-blue, #78ccfa);
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* --- new: logo mark --- */
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--ic-border);
+  background: rgba(47, 216, 201, 0.05);
+  font-family: ui-monospace, "JetBrains Mono", "SFMono-Regular", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ic-signal);
+  text-transform: uppercase;
+}
+
+.auth-logo::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ic-signal);
+  box-shadow: 0 0 0 4px rgba(47, 216, 201, 0.16);
+  animation: glow 2.4s ease-in-out infinite;
+}
+
+/* --- new: title/subtitle utility classes for the brand column --- */
+.auth-title {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 1.05;
+  margin: 0.3rem 0 0.7rem;
+  color: var(--ic-text-hi);
+  font-family: "Space Grotesk", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+}
+
+.auth-subtitle {
+  color: var(--ic-text-mid);
+  max-width: 30rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+/* --- new: animated illustration frame for radar / crime-map graphic --- */
+.auth-illustration {
+  position: relative;
+  margin-top: 2.25rem;
+  width: min(420px, 90%);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1px solid var(--ic-border);
+  background:
+    repeating-conic-gradient(from 0deg, rgba(47, 216, 201, 0.12) 0deg 2deg, transparent 2deg 18deg);
+  display: grid;
+  place-items: center;
+}
+
+.auth-illustration::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(47, 216, 201, 0.35) 18deg, transparent 40deg);
+  animation: slideLeft 4s linear infinite;
+  mix-blend-mode: screen;
+}
+
+.auth-illustration::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px dashed var(--ic-border);
+}
+
+/* ============================================================================
+   4. STAT & FEATURE COMPONENTS (new)
+   ============================================================================ */
+.auth-stat-card {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.auth-stat {
+  flex: 1;
+  padding: 0.9rem 1.05rem;
+  border-radius: var(--ic-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--ic-border);
+  backdrop-filter: blur(6px);
+  transition: transform var(--ic-speed-med) var(--ic-ease), border-color var(--ic-speed-med) var(--ic-ease);
+}
+
+.auth-stat:hover {
+  transform: translateY(-3px);
+  border-color: var(--ic-border-strong);
+}
+
+.auth-stat strong {
+  display: block;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 1.5rem;
+  color: var(--ic-signal);
+  letter-spacing: 0.01em;
+}
+
+.auth-stat span {
+  font-size: 0.72rem;
+  color: var(--ic-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.auth-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  color: var(--ic-text-mid);
+  font-size: 0.92rem;
+}
+
+.auth-feature-icon {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(47, 216, 201, 0.08);
+  border: 1px solid var(--ic-border);
+  color: var(--ic-signal);
+}
+
+.auth-info-card {
+  margin-top: 1.5rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--ic-radius-sm);
+  border: 1px solid var(--ic-border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* ============================================================================
+   5. AUTH CARD — GLASSMORPHISM PANEL
+   ============================================================================ */
+.auth-card {
+  background: var(--color-bg-translucent, rgba(255, 255, 255, 0.97));
+  color: var(--color-text-dark, #10253e);
+  border-radius: var(--border-radius-lg, 20px);
+  padding: clamp(1.5rem, 4vw, 2.7rem);
+  box-shadow: var(--shadow-lg, 0 20px 55px rgba(0, 0, 0, 0.28));
+
+  /* --- new: premium glass treatment --- */
+  position: relative;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid var(--ic-border);
+  animation: fadeScale var(--ic-speed-slow) var(--ic-ease) both, float 7s ease-in-out 1.1s infinite;
+  transition: box-shadow var(--ic-speed-med) var(--ic-ease), border-color var(--ic-speed-med) var(--ic-ease),
+    transform var(--ic-speed-med) var(--ic-ease);
+  will-change: transform;
+}
+
+.auth-card:hover {
+  border-color: var(--ic-border-strong);
+  box-shadow: var(--shadow-lg, 0 20px 55px rgba(0, 0, 0, 0.28)), var(--ic-shadow-glow);
+}
+
+/* corner glow accent, purely decorative, does not affect layout */
+.auth-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(47, 216, 201, 0.35), transparent 40%, transparent 60%, rgba(47, 216, 201, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.auth-card h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.muted {
+  color: var(--color-text-muted-dark, #526579);
+  margin: 0.45rem 0 1.6rem;
+}
+
+/* ============================================================================
+   6. TYPOGRAPHY (extends existing rules, adds hierarchy utilities)
+   ============================================================================ */
+.auth-card h2,
+.auth-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.auth-card p,
+.auth-subtitle,
+.muted {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+/* ============================================================================
+   7. FORMS & INPUTS
+   ============================================================================ */
+.auth-card form {
+  display: grid;
+  gap: 1rem;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 0.42rem;
+  color: var(--color-text-helper-dark, #263d54);
+  font-size: 0.87rem;
+  font-weight: 700;
+}
+
+.auth-card input,
+.auth-card select {
+  width: 100%;
+  border: 1px solid var(--color-border-light, #c7d4e0);
+  border-radius: var(--border-radius-sm, 8px);
+  padding: 0.75rem 0.85rem;
+  color: var(--color-text-dark, #10253e);
+  background: var(--color-bg-light, #ffffff);
+  outline-color: var(--color-outline-focus, #198aca);
+
+  /* --- new: modern input states --- */
+  transition: border-color var(--ic-speed-fast) var(--ic-ease), box-shadow var(--ic-speed-fast) var(--ic-ease),
+    background var(--ic-speed-fast) var(--ic-ease);
+}
+
+.auth-card input:focus-visible,
+.auth-card select:focus-visible {
+  border-color: var(--ic-signal);
+  box-shadow: 0 0 0 3px rgba(47, 216, 201, 0.22);
+  outline: none;
+}
+
+.auth-card input:disabled,
+.auth-card select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-card input.is-success {
+  border-color: var(--ic-success);
+}
+
+.auth-card input.is-error {
+  border-color: var(--ic-danger);
+}
+
+.auth-card input.is-loading {
+  background-image: linear-gradient(90deg, transparent, rgba(47, 216, 201, 0.12), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* --- new: floating label pattern (opt-in, non-breaking) --- */
+.auth-field {
+  position: relative;
+}
+
+.auth-field label.floating {
+  position: absolute;
+  left: 0.85rem;
+  top: 0.78rem;
+  margin: 0;
+  padding: 0 0.25rem;
+  background: transparent;
+  font-weight: 500;
+  color: var(--ic-text-dim);
+  transition: transform var(--ic-speed-fast) var(--ic-ease), font-size var(--ic-speed-fast) var(--ic-ease),
+    color var(--ic-speed-fast) var(--ic-ease);
+  pointer-events: none;
+}
+
+.auth-field input:focus ~ label.floating,
+.auth-field input:not(:placeholder-shown) ~ label.floating {
+  transform: translateY(-1.55rem);
+  font-size: 0.72rem;
+  color: var(--ic-signal);
+  background: var(--color-bg-translucent, rgba(255, 255, 255, 0.97));
+}
+
+/* --- new: input icon slot --- */
+.auth-field .input-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ic-text-dim);
+  pointer-events: none;
+}
+
+/* ============================================================================
+   8. PASSWORD INPUT
+   ============================================================================ */
+.password-input {
+  display: flex;
+  border: 1px solid var(--color-border-light, #c7d4e0);
+  border-radius: var(--border-radius-sm, 8px);
+  overflow: hidden;
+  transition: border-color var(--ic-speed-fast) var(--ic-ease), box-shadow var(--ic-speed-fast) var(--ic-ease);
+}
+
+.password-input:focus-within {
+  border-color: var(--ic-signal);
+  box-shadow: 0 0 0 3px rgba(47, 216, 201, 0.22);
+}
+
+.password-input input {
+  border: 0;
+}
+
+.password-input button {
+  border: 0;
+  background: var(--color-bg-light, #ffffff);
+  color: #36536e;
+  padding: 0 0.75rem;
+  transition: color var(--ic-speed-fast) var(--ic-ease);
+}
+
+.password-input button:hover {
+  color: var(--ic-signal);
+}
+
+/* ============================================================================
+   9. BUTTONS
+   ============================================================================ */
+.btn,
+.auth-card button[type="submit"] {
+  --btn-fg: #06231f;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--ic-radius-sm);
+  font-weight: 700;
+  font-size: 0.94rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform var(--ic-speed-fast) var(--ic-ease), box-shadow var(--ic-speed-fast) var(--ic-ease),
+    filter var(--ic-speed-fast) var(--ic-ease);
+}
+
+.btn:hover,
+.auth-card button[type="submit"]:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active,
+.auth-card button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Primary */
+.btn-primary,
+.auth-card button[type="submit"] {
+  color: var(--btn-fg);
+  background: linear-gradient(135deg, var(--ic-signal), var(--ic-signal-dim));
+  box-shadow: 0 10px 26px rgba(47, 216, 201, 0.28);
+}
+
+.btn-primary:hover,
+.auth-card button[type="submit"]:hover {
+  box-shadow: 0 14px 32px rgba(47, 216, 201, 0.38);
+}
+
+/* Secondary */
+.btn-secondary {
+  color: var(--ic-text-hi);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--ic-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--ic-border-strong);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Text */
+.btn-text {
+  color: var(--ic-signal);
+  background: transparent;
+  padding: 0.4rem 0.5rem;
+}
+
+.btn-text:hover {
+  text-decoration: underline;
+}
+
+/* Danger */
+.btn-danger {
+  color: #fff;
+  background: linear-gradient(135deg, var(--ic-danger), #b91d3f);
+  box-shadow: 0 10px 26px rgba(229, 57, 91, 0.28);
+}
+
+/* Outline */
+.btn-outline {
+  color: var(--ic-signal);
+  background: transparent;
+  border-color: var(--ic-border-strong);
+}
+
+.btn-outline:hover {
+  background: rgba(47, 216, 201, 0.08);
+}
+
+/* Ghost */
+.btn-ghost {
+  color: var(--ic-text-mid);
+  background: transparent;
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ic-text-hi);
+}
+
+/* Icon button */
+.btn-icon {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--ic-border);
+  color: var(--ic-text-mid);
+}
+
+/* Loading button */
+.btn-loading {
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Ripple effect (works with a .ripple span injected on click, purely additive) */
+.btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.45);
+  animation: ripple 0.6s var(--ic-ease);
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* ============================================================================
+   10. BADGES, DIVIDER, SOCIAL, FOOTER (new)
+   ============================================================================ */
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  color: var(--ic-success);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-security {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted-dark, #526579);
+  font-size: 0.78rem;
+  margin-top: 1.25rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ic-text-dim);
+  font-size: 0.78rem;
+  margin: 1.1rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-light, #c7d4e0);
+}
+
+.auth-social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted-dark, #526579);
+}
+
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -0.25rem 0 0.25rem;
+}
+
+.auth-links {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.auth-footer {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--ic-text-dim);
+}
+
+/* ============================================================================
+   11. VALIDATION & LINKS
+   ============================================================================ */
+.form-error {
+  color: var(--color-error-text, #b42318);
+  background: var(--color-error-bg, #fff0ef);
+  border-left: 3px solid var(--color-error-border, #dc2626);
+  padding: 0.7rem;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  border-radius: 0 6px 6px 0;
+}
+
+.switch-link {
+  text-align: center;
+  color: var(--color-text-muted-dark, #526579);
+  font-size: 0.9rem;
+}
+
+.switch-link a,
+.simple-page a {
+  color: var(--color-brand-secondary, #0674b1);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color var(--ic-speed-fast) var(--ic-ease);
+}
+
+.switch-link a:hover,
+.simple-page a:hover {
+  color: var(--ic-signal);
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   12. ANIMATIONS
+   ============================================================================ */
+@keyframes fadeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(47, 216, 201, 0.16);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(47, 216, 201, 0.05);
+  }
+}
+
+@keyframes cardHover {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   13. ACCESSIBILITY
+   ============================================================================ */
+:focus-visible {
+  outline: 2px solid var(--ic-signal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-shell::after,
+  .auth-card,
+  .auth-illustration::before,
+  .auth-logo::before,
+  .btn-loading::after {
+    animation: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .auth-card {
+    border: 2px solid var(--ic-text-hi);
+    backdrop-filter: none;
+  }
+  .form-error {
+    border-left-width: 5px;
+  }
+}
+
+/* ============================================================================
+   14. RESPONSIVE BREAKPOINTS
+   ============================================================================ */
+
+/* Ultra-wide */
+@media (min-width: 1800px) {
+  .auth-shell {
+    max-width: 1700px;
+    margin: 0 auto;
+  }
+}
+
+/* Laptop */
+@media (max-width: 1200px) {
+  .auth-shell {
+    gap: clamp(1.5rem, 6vw, 4rem);
+    padding: 2rem clamp(1.25rem, 5vw, 4rem);
+  }
+}
+
+/* Tablet */
+@media (max-width: 960px) {
+  .auth-illustration {
+    width: min(320px, 80%);
+  }
+  .auth-stat-card {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile / stacked layout */
+@media (max-width: 760px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+  .auth-brand {
+    padding: 1rem 0;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .auth-brand h1 {
+    font-size: 2.35rem;
+  }
+  .auth-illustration {
+    margin: 1.25rem auto 0;
+  }
+  .auth-stat-card {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+/* Landscape phones */
+@media (max-height: 480px) and (orientation: landscape) {
+  .auth-shell {
+    align-items: start;
+    padding-top: 1rem;
+  }
+  .auth-illustration {
+    display: none;
+  }
+}
