@@ -4,7 +4,7 @@ import { Hero } from '../components/landing/Hero';
 import { Features } from '../components/landing/Features';
 import { DashboardPreview } from '../components/landing/DashboardPreview';
 
-export function LandingPage() {
+export const LandingPage: React.FC = () => {
   return (
     <div className="bg-slate-950">
       <Navbar />

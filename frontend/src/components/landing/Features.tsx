@@ -8,10 +8,17 @@ import {
     Map, 
     Cpu, 
     Users, 
-    Languages 
+    Languages,
+    LucideIcon
 } from 'lucide-react';
 
-const featureList = [
+interface Feature {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+}
+
+const featureList: Feature[] = [
     { icon: BrainCircuit, title: "AI Crime Analytics", description: "Uncover hidden patterns and predict criminal activity with advanced AI." },
     { icon: Cpu, title: "Evidence Intelligence", description: "Automatically process and analyze digital and physical evidence streams." },
     { icon: Eye, title: "Face Recognition", description: "Identify suspects in real-time from CCTV feeds and databases." },
@@ -22,7 +29,11 @@ const featureList = [
     { icon: Languages, title: "Multilingual AI", description: "Break down language barriers with real-time translation and analysis." },
 ];
 
-const FeatureCard = ({ icon: Icon, title, description, index }) => (
+interface FeatureCardProps extends Feature {
+    index: number;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description, index }) => (
     <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -38,7 +49,7 @@ const FeatureCard = ({ icon: Icon, title, description, index }) => (
     </motion.div>
 );
 
-export const Features = () => {
+export const Features: React.FC = () => {
     return (
         <section className="py-24 bg-slate-950">
             <div className="max-w-7xl mx-auto px-8">

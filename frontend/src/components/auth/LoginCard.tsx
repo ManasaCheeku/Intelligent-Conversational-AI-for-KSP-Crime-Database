@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { motion } from 'framer-motion';
-import { Fingerprint, Mail, Lock } from 'lucide-react';
+import { Fingerprint, Mail, Lock, LucideIcon } from 'lucide-react';
 
-const InputField = ({ icon: Icon, type, placeholder, id }) => (
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+    icon: LucideIcon;
+    id: string;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ icon: Icon, id, ...props }) => (
   <div className="relative">
     <Icon className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-500" size={20} />
     <input
-      type={type}
       id={id}
-      placeholder={placeholder}
+      {...props}
       className="w-full bg-slate-900/70 border border-slate-700 rounded-lg pl-12 pr-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
     />
   </div>
 );
 
-export const LoginCard = () => {
+export const LoginCard: React.FC = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle login logic here
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -41,9 +50,9 @@ export const LoginCard = () => {
         <p className="text-slate-400 text-sm mt-2">Karnataka State Police Intelligence</p>
       </div>
 
-      <form className="mt-8 space-y-6">
-        <InputField icon={Mail} type="email" id="email" placeholder="Email Address" />
-        <InputField icon={Lock} type="password" id="password" placeholder="Password" />
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <InputField icon={Mail} type="email" id="email" placeholder="Email Address" required />
+        <InputField icon={Lock} type="password" id="password" placeholder="Password" required />
 
         <div className="flex justify-between items-center text-sm">
           <div className="flex items-center gap-2">

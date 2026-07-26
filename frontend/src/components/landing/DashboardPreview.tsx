@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Map, BarChart2, List, AlertTriangle, User, Search } from 'lucide-react';
+import { Map, BarChart2, List, AlertTriangle, User, Search, LucideIcon } from 'lucide-react';
 
-const DashboardWidget = ({ icon: Icon, title, children, className = '' }) => (
+interface DashboardWidgetProps {
+    icon: LucideIcon;
+    title: string;
+    children: ReactNode;
+    className?: string;
+}
+
+const DashboardWidget: React.FC<DashboardWidgetProps> = ({ icon: Icon, title, children, className = '' }) => (
     <div className={`glass-card rounded-2xl p-6 h-full flex flex-col ${className}`}>
         <div className="flex items-center gap-3 mb-4">
             <Icon className="text-cyan-400" size={20} />
@@ -12,7 +19,7 @@ const DashboardWidget = ({ icon: Icon, title, children, className = '' }) => (
     </div>
 );
 
-export const DashboardPreview = () => {
+export const DashboardPreview: React.FC = () => {
     return (
         <section className="py-24 bg-slate-950">
             <div className="max-w-7xl mx-auto px-8">

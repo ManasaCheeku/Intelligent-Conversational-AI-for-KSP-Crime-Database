@@ -3,14 +3,18 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 
-const NavLink = ({ text }) => (
+interface NavLinkProps {
+    text: string;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ text }) => (
     <a href="#" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
         {text}
     </a>
 );
 
-export const Navbar = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
+export const Navbar: React.FC = () => {
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
     useEffect(() => {
         const handleScroll = () => {

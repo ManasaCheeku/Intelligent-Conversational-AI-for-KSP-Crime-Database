@@ -3,7 +3,7 @@ import { LoginCard } from '../components/auth/LoginCard';
 import { Link } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 
-const LoginPageBackground = () => (
+const LoginPageBackground: React.FC = () => (
     <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Subtle grid background */}
         <div 
@@ -24,7 +24,7 @@ const LoginPageBackground = () => (
 );
 
 
-export function LoginPage() {
+export const LoginPage: React.FC = () => {
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-slate-950 text-slate-300 overflow-hidden">
         <LoginPageBackground />

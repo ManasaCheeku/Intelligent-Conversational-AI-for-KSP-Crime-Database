@@ -1,10 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PlayCircle, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '../ui/Button';
 
 // A component for the faux "dashboard" illustration
-const CinematicIllustration = () => {
+const CinematicIllustration: React.FC = () => {
     // Using a placeholder image with specific text to convey the idea
     const imageUrl = "https://placehold.co/1200x800/050a19/1e293b.png?text=Futuristic+Police+Command+Center+UI";
 
@@ -44,7 +45,7 @@ const CinematicIllustration = () => {
     );
 };
 
-export const Hero = () => {
+export const Hero: React.FC = () => {
   return (
     <section className="relative w-full h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
         {/* Background decorative elements */}
@@ -67,10 +68,12 @@ export const Hero = () => {
                     AI-powered investigation platform for Karnataka State Police, enabling faster response and predictive insights.
                 </p>
                 <div className="mt-10 flex items-center gap-4">
-                    <Button to="/login" variant="primary">
-                        <span>Secure Login</span>
-                        <ArrowRight size={18} />
-                    </Button>
+                    <Link to="/login">
+                        <Button variant="primary">
+                            <span>Secure Login</span>
+                            <ArrowRight size={18} />
+                        </Button>
+                    </Link>
                     <Button variant="secondary">
                         <PlayCircle size={18} />
                         <span>Watch Demo</span>
