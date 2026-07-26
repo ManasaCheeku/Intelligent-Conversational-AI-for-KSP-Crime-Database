@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MapContainer, TileLayer, LayersControl, useMap, useMapEvents } from 'react-leaflet';
-import CrimeHeatmapLayer, { CrimeDataPoint } from './CrimeHeatmapLayer';
+import CrimeHeatmapLayer from './CrimeHeatmapLayer';
 
 import DistrictBoundariesLayer from './DistrictBoundariesLayer';
 import karnatakaDistrictsData from '../../assets/karnataka_districts.geojson';
@@ -24,6 +24,16 @@ L.Icon.Default.mergeOptions({
 });
 // --- FIX END ---
 
+// Define the structure for a single data point for the heatmap.
+export type CrimeDataPoint = {
+    lat: number;
+    lon: number;
+    intensity: number;
+    type: 'Theft' | 'Assault' | 'Burglary' | 'Vandalism';
+};
+
+const CRIME_TYPES = ['All', 'Theft', 'Assault', 'Burglary', 'Vandalism'];
+
 // Define the geographical center of Karnataka
 const karnatakaCenter: [number, number] = [15.3173, 75.7139];
 
@@ -33,7 +43,7 @@ const karnatakaCenter: [number, number] = [15.3173, 75.7139];
  * be used within a component that is a child of `<MapContainer>`.
  */
 const MapEventsHandler: React.FC<{ onBoundsChange: (bounds: LatLngBounds) => void }> = ({ onBoundsChange }) => {
-    const map = useMap();
+    const map = useMap(); 
 
     // Set initial bounds once the map is ready
     useEffect(() => {
@@ -74,10 +84,11 @@ const KarnatakaHeatmap: React.FC = () => {
     const [districtsData, setDistrictsData] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedCrimeType, setSelectedCrimeType] = useState<string>('All');
     const [startDate, setStartDate] = useState<Date>(thirtyDaysAgo);
     const [endDate, setEndDate] = useState<Date>(today);
     const [mapBounds, setMapBounds] = useState<LatLngBounds | null>(null);
-
+    
     // Fetching logic remains the same
     useEffect(() => {
         // This function simulates fetching data from an API endpoint.
@@ -93,16 +104,16 @@ const KarnatakaHeatmap: React.FC = () => {
                 );
 
                 // For demonstration, we simulate a network delay and use the mock data.
-                await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5 second delay
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
                 const mockApiResponse: CrimeDataPoint[] = [
-                    [12.9716, 77.5946, 50], // Bengaluru
-                    [12.9791, 77.5913, 45], // Near Bengaluru
-                    [15.8497, 74.4977, 30], // Belagavi
-                    [12.3052, 76.6552, 40], // Mysuru
-                    [15.4589, 75.0078, 25], // Hubballi-Dharwad
-                    [17.3334, 76.8343, 20], // Kalaburagi
-                    [12.8614, 74.8446, 35], // Mangaluru
-                    [13.3409, 77.7219, 15], // Chikkaballapur
+                    { lat: 12.9716, lon: 77.5946, intensity: 50, type: 'Theft' },       // Bengaluru
+                    { lat: 12.9791, lon: 77.5913, intensity: 45, type: 'Assault' },    // Near Bengaluru
+                    { lat: 15.8497, lon: 74.4977, intensity: 30, type: 'Burglary' },   // Belagavi
+                    { lat: 12.3052, lon: 76.6552, intensity: 40, type: 'Theft' },       // Mysuru
+                    { lat: 15.4589, lon: 75.0078, intensity: 25, type: 'Vandalism' },  // Hubballi-Dharwad
+                    { lat: 17.3334, lon: 76.8343, intensity: 20, type: 'Assault' },    // Kalaburagi
+                    { lat: 12.8614, lon: 74.8446, intensity: 35, type: 'Burglary' },   // Mangaluru
+                    { lat: 13.3409, lon: 77.7219, intensity: 15, type: 'Theft' },       // Chikkaballapur
                 ];
                 setCrimeData(mockApiResponse);
             } catch (error) {
@@ -130,24 +141,28 @@ const KarnatakaHeatmap: React.FC = () => {
             await Promise.all([fetchCrimeData(startDate, endDate), fetchDistrictsData()]);
             setIsLoading(false);
         };
-        loadAllData();
+        loadAllData(); 
     }, [startDate, endDate]); // Re-run the effect when the date range changes.
 
     // This effect filters the crime data whenever the map bounds or the source data changes.
     useEffect(() => {
-        if (!mapBounds || crimeData.length === 0) {
+        if (!mapBounds || !crimeData) {
             setVisibleCrimeData([]);
             return;
         }
 
-        const filteredData = crimeData.filter(point => {
-            const lat = point[0];
-            const lng = point[1];
-            return mapBounds.contains([lat, lng]);
-        });
+        const filteredData = crimeData
+            // First, filter by the selected crime type
+            .filter(point => {
+                return selectedCrimeType === 'All' || point.type === selectedCrimeType;
+            })
+            // Then, filter by the current map bounds
+            .filter(point => {
+                return mapBounds.contains([point.lat, point.lon]);
+            });
 
         setVisibleCrimeData(filteredData);
-    }, [mapBounds, crimeData]);
+    }, [mapBounds, crimeData, selectedCrimeType]);
 
     return (
         // This parent div is crucial. It defines the area the map will occupy.
@@ -155,7 +170,7 @@ const KarnatakaHeatmap: React.FC = () => {
         // 'w-full' makes it take the full width.
         <div className="h-screen w-full relative">
             {/* Date Range Filter UI */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white p-3 rounded-lg shadow-lg flex gap-4 items-center">
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white p-3 rounded-lg shadow-lg flex gap-4 items-end">
                 <div className="flex flex-col">
                     <label htmlFor="start-date" className="text-sm font-medium text-gray-600">Start Date</label>
                     <input type="date" id="start-date" className="p-1 border border-gray-300 rounded-md" value={formatDateForInput(startDate)} onChange={e => setStartDate(new Date(e.target.value))} />
@@ -163,6 +178,16 @@ const KarnatakaHeatmap: React.FC = () => {
                 <div className="flex flex-col">
                     <label htmlFor="end-date" className="text-sm font-medium text-gray-600">End Date</label>
                     <input type="date" id="end-date" className="p-1 border border-gray-300 rounded-md" value={formatDateForInput(endDate)} onChange={e => setEndDate(new Date(e.target.value))} />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="crime-type" className="text-sm font-medium text-gray-600">Crime Type</label>
+                    <select
+                        id="crime-type"
+                        className="p-1 border border-gray-300 rounded-md bg-white text-gray-800 h-[34px]"
+                        value={selectedCrimeType}
+                        onChange={e => setSelectedCrimeType(e.target.value)}>
+                        {CRIME_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
+                    </select>
                 </div>
             </div>
 

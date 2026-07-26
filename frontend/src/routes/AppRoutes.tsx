@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from '../components/ui/Navbar';
-import Hero from '../components/ui/Hero';
-import Features from '../components/ui/Features';
-import Technology from '../components/ui/Technology';
-import About from '../components/ui/About';
-import Footer from '../components/ui/Footer';
+import { Navbar } from '../components/Navbar';
+import { Hero } from '../components/Hero';
+import { Features } from '../components/Features';
+import { Technology } from '../components/Technology';
+import { About } from '../components/About';
+import { Footer } from '../components/Footer';
 import KarnatakaHeatmap from '../pages/KarnatakaHeatmap';
 import LoginPage from '../pages/LoginPage';
 

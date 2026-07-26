@@ -1,11 +1,13 @@
 import React from 'react';
 import { HeatmapLayer } from 'react-leaflet-heatmap-layer-v3';
+import { CrimeDataPoint } from './KarnatakaHeatmap';
 
 /**
  * Defines the structure for a single data point for the heatmap.
  * The format is an array: [latitude, longitude, intensity].
  */
-export type CrimeDataPoint = [number, number, number];
+// This type is now defined in KarnatakaHeatmap.tsx and imported.
+// export type CrimeDataPoint = [number, number, number];
 
 interface CrimeHeatmapLayerProps {
   /**
@@ -27,9 +29,9 @@ const CrimeHeatmapLayer: React.FC<CrimeHeatmapLayerProps> = ({ data }) => {
   return (
     <HeatmapLayer
       points={data}
-      longitudeExtractor={(point: CrimeDataPoint) => point[1]}
-      latitudeExtractor={(point: CrimeDataPoint) => point[0]}
-      intensityExtractor={(point: CrimeDataPoint) => point[2]}
+      longitudeExtractor={(point: CrimeDataPoint) => point.lon}
+      latitudeExtractor={(point: CrimeDataPoint) => point.lat}
+      intensityExtractor={(point: CrimeDataPoint) => point.intensity}
       radius={25} // Adjust the radius of each point for better visualization
     />
   );

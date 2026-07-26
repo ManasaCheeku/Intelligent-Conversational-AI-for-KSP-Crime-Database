@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { AICrimeInvestigationAssistant } from "./components/chatbot/AICrimeInvestigationAssistant";
 import FloatingChatWidget from "./components/chatbot/FloatingChatWidget";
-import { useChat } from "./context/ChatContext";
+import { ChatProvider, useChat } from "./context/ChatContext";
 import { AppRoutes } from "./routes/AppRoutes";
 
 export default function App() {

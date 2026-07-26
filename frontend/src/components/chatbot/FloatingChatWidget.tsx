@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Bot, MessageSquare } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 
-export const FloatingChatWidget = () => {
+const FloatingChatWidget = () => {
   const { toggleChat } = useChat();
 
   return (
