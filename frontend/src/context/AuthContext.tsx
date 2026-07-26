@@ -1,44 +1,65 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { authService } from "../services/authService";
-import { tokenStorage } from "../services/tokenStorage";
-import type { LoginCredentials, RegistrationPayload, User, UserRole } from "../types/auth";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import type { User, UserRole } from '../types/auth';
 
-interface AuthContextValue {
+interface AuthContextType {
+  isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
-  isAuthenticated: boolean;
-  login: (credentials: LoginCredentials) => Promise<User>;
-  register: (payload: RegistrationPayload) => Promise<User>;
-  logout: () => Promise<void>;
+  login: (officerId: string, password: string) => Promise<void>;
+  logout: () => void;
   hasRole: (roles: UserRole[]) => boolean;
 }
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const restoreSession = async () => {
-      if (!tokenStorage.getAccessToken()) { setIsLoading(false); return; }
-      try { const currentUser = await authService.getCurrentUser(); tokenStorage.saveUser(currentUser); setUser(currentUser); }
-      catch { tokenStorage.clear(); setUser(null); }
-      finally { setIsLoading(false); }
-    };
-    void restoreSession();
-    const expire = () => setUser(null);
-    window.addEventListener("ksp-auth-expired", expire);
-    return () => window.removeEventListener("ksp-auth-expired", expire);
-  }, []);
-  const login = useCallback(async (credentials: LoginCredentials) => {
-    const session = await authService.login(credentials); tokenStorage.save(session); setUser(session.user); return session.user;
-  }, []);
-  const register = useCallback((payload: RegistrationPayload) => authService.register(payload), []);
-  const logout = useCallback(async () => { await authService.logout(); setUser(null); }, []);
-  const value = useMemo(() => ({ user, isLoading, isAuthenticated: Boolean(user), login, register, logout, hasRole: (roles: UserRole[]) => !!user && roles.includes(user.role) }), [user, isLoading, login, register, logout]);
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-export function useAuth(): AuthContextValue {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const login = async (officerId: string, password: string) => {
+    setIsLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (officerId && password) {
+      // In a real app, you'd get user data from the API response
+      const mockUser: User = {
+        id: 123,
+        full_name: "Rakesh Sharma",
+        email: "rakesh.sharma@ksp.gov.in",
+        mobile: "9886012345",
+        role: "police_officer",
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      setUser(mockUser);
+    } else {
+      throw new Error('Invalid credentials');
+    }
+    setIsLoading(false);
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
+  const hasRole = (roles: UserRole[]) => {
+    return !!user && roles.includes(user.role);
+  };
+
+  const isAuthenticated = !!user;
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, user, isLoading, login, logout, hasRole }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
   return context;
-}
+};

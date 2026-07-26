@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Shield, LogIn, AlertCircle } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 /**
  * A secure login page for officers.
@@ -15,32 +16,18 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    // Simulate an API call for authentication
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // In a real application, you would send credentials to a backend:
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ officerId, password }),
-      // });
-      // if (!response.ok) throw new Error('Invalid credentials');
-
-      // For this demo, we'll just check for non-empty fields
-      if (officerId && password) {
-        console.log('Login successful');
-        // On success, you would typically store a token and redirect
-        navigate('/dashboard'); // Redirect to a protected dashboard route
-      } else {
-        throw new Error('Officer ID and Password are required.');
-      }
+      // Use the login function from AuthContext
+      await login(officerId, password);
+      // On success, redirect to the dashboard
+      navigate('/dashboard', { replace: true });
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {
@@ -98,6 +85,12 @@ const LoginPage: React.FC = () => {
               {isLoading ? 'Authenticating...' : 'Login'}
               {!isLoading && <LogIn className="ml-2 h-4 w-4" />}
             </Button>
+          </div>
+
+          <div className="text-center text-sm">
+            <Link to="/forgot-password" className="font-medium text-slate-400 hover:text-cyan-400 transition-colors">
+              Forgot Password?
+            </Link>
           </div>
         </form>
       </motion.div>

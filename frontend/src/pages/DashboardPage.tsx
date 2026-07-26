@@ -1,9 +1,11 @@
 import { useEffect, useState, type ElementType } from "react";
+import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { AlertTriangle, CheckCircle, Clock, Shield, Siren } from "lucide-react";
+import { AlertTriangle, CheckCircle, Clock, LogOut, Shield, Siren } from "lucide-react";
 import { crimeService } from "../services/crimeService";
 import type { DashboardStats } from "../types/crime";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "../components/ui/Button";
 import Loader from "../components/animations/Loader";
 
 const chartData = [
@@ -43,9 +45,17 @@ const MetricCard = ({ label, value, icon: Icon, colorClass }: MetricCardProps) =
 );
 
 export default function DashboardPage() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        // Redirect to login page after logout
+        // The ProtectedRoute will also handle this, but explicit navigation is good practice.
+        navigate('/login', { replace: true });
+    };
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -75,12 +85,15 @@ export default function DashboardPage() {
             }
         `}</style>
         <main className="page-shell theme-dashboard">
-            <div className="page-heading">
+            <div className="page-heading page-actions">
                 <div>
                     <p className="eyebrow">Command Center</p>
                     <h1>Police Dashboard</h1>
                     <p>Welcome, {user?.role === 'police_officer' ? 'Officer' : 'Admin'} {user?.full_name}.</p>
                 </div>
+                <Button variant="secondary" onClick={handleLogout}>
+                    <LogOut size={16} /> Logout
+                </Button>
             </div>
 
             {loading ? (

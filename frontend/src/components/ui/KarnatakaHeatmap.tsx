@@ -6,7 +6,7 @@ import DistrictBoundariesLayer from './DistrictBoundariesLayer';
 import karnatakaDistrictsData from '../../assets/karnataka_districts.geojson';
 
 import 'leaflet/dist/leaflet.css'; // Import Leaflet's CSS
-import L from 'leaflet';
+import L, { LatLngBounds } from 'leaflet';
  
 // --- FIX START ---
 // The root cause of the blank map is Leaflet's default icon path issue with bundlers like Vite.
