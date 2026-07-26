@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "district": "Bengaluru Urban"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.4, 12.8], [77.8, 12.8], [77.8, 13.15], [77.4, 13.15], [77.4, 12.8]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "district": "Mysuru"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [76.4, 12.1], [76.9, 12.1], [76.9, 12.5], [76.4, 12.5], [76.4, 12.1]
+          ]
+        ]
+      }
+    }
+  ]
+}
