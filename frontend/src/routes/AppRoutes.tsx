@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-import Dashboard from "../pages/DashboardPage";
+import DashboardPage from "../pages/DashboardPage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import {
@@ -16,7 +16,7 @@ import { EditCrimePage } from "../pages/EditCrimePage";
 import { ReportCrimePage } from "../pages/ReportCrimePage";
 
 import { ProtectedRoute } from "./ProtectedRoute";
-import MainLayout from "../components/layout/MainLayout";
+import MainLayout from "../components/layout/MainLayout"; // This path is now valid
 
 function PublicOnly({
   children,
@@ -65,7 +65,7 @@ export function AppRoutes() {
         <Route element={<MainLayout />}>
           <Route
             path="/dashboard"
-            element={<Dashboard />}
+            element={<DashboardPage />}
           />
 
           <Route

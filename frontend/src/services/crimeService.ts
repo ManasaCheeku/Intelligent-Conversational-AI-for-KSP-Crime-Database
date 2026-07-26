@@ -8,8 +8,5 @@ export const crimeService = {
   get: async (id: string): Promise<Crime> => (await api.get<Crime>(`/crimes/${id}`)).data,
   update: async (id: string, values: CrimeUpdatePayload): Promise<Crime> => (await api.put<Crime>(`/crimes/${id}`, values)).data,
   assignOfficer: async (id: string, officerId: number): Promise<Crime> => (await api.put<Crime>(`/crimes/${id}/assignment`, { officer_id: officerId })).data,
-  remove: async (id: string): Promise<void> => { await api.delete(`/crimes/${id}`); },
-  uploadEvidence: async (id: string, files: File[]): Promise<Evidence[]> => { const form = new FormData(); files.forEach((file) => form.append("files", file)); return (await api.post<Evidence[]>(`/crimes/${id}/evidence`, form, { headers: { "Content-Type": "multipart/form-data" } })).data; },
-  downloadEvidence: async (url: string, filename: string): Promise<void> => { const response = await api.get(url, { responseType: "blob" }); const objectUrl = URL.createObjectURL(response.data as Blob); const anchor = document.createElement("a"); anchor.href = objectUrl; anchor.download = filename; anchor.click(); URL.revokeObjectURL(objectUrl); },
   dashboardStats: async (): Promise<DashboardStats> => (await api.get<DashboardStats>("/dashboard/stats")).data,
 };

@@ -1,5 +1,5 @@
-from app.models.audit_log import AuditLog  # noqa: F401
-from app.models.crime import Crime, Evidence  # noqa: F401
-from app.models.investigation import CaseStatusHistory, Investigation, InvestigationNote  # noqa: F401
-from app.models.notification import Notification  # noqa: F401
-from app.models.user import RefreshToken, User  # noqa: F401
+from .user import User
+from .crime import Crime, Evidence
+from .investigation import Investigation, InvestigationNote, CaseStatusHistory
+from .notification import Notification
+from .audit_log import AuditLog

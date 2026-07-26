@@ -1,14 +1,5 @@
-import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserPlus } from "lucide-react";
-import { AuthShell } from "../components/auth/AuthShell";
-import { useAuth } from "../context/AuthContext";
-import { getApiErrorMessage } from "../services/api";
-import type { RegistrationPayload, UserRole } from "../types/auth";
-const initialForm: RegistrationPayload = { full_name: "", email: "", mobile: "", password: "", confirm_password: "", role: "citizen" };
 export function RegisterPage() {
-  const { register } = useAuth(); const navigate = useNavigate(); const [form, setForm] = useState(initialForm); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false);
-  const update = <K extends keyof RegistrationPayload>(key: K, value: RegistrationPayload[K]) => setForm((current) => ({ ...current, [key]: value }));
-  const submit = async (event: FormEvent) => { event.preventDefault(); setError(""); if (form.password !== form.confirm_password) { setError("Passwords do not match."); return; } setSubmitting(true); try { await register(form); navigate("/login", { replace: true, state: { notice: "Account created. Please sign in." } }); } catch (err) { setError(getApiErrorMessage(err)); } finally { setSubmitting(false); } };
-  return <AuthShell><h2>Create account</h2><p className="muted">Register your identity to access KSP IntelliCrime.</p>{error && <p className="form-error" role="alert">{error}</p>}<form onSubmit={submit} noValidate><label>Full name<input required minLength={2} value={form.full_name} onChange={(e) => update("full_name", e.target.value)} /></label><div className="form-grid"><label>Email<input required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} /></label><label>Mobile number<input required type="tel" value={form.mobile} onChange={(e) => update("mobile", e.target.value)} placeholder="+91 9876543210" /></label></div><label>Role<select value={form.role} onChange={(e) => update("role", e.target.value as UserRole)}><option value="citizen">Citizen</option><option value="police_officer">Police Officer</option><option value="admin">Administrator</option></select></label><div className="form-grid"><label>Password<input required minLength={8} type="password" autoComplete="new-password" value={form.password} onChange={(e) => update("password", e.target.value)} /></label><label>Confirm password<input required minLength={8} type="password" autoComplete="new-password" value={form.confirm_password} onChange={(e) => update("confirm_password", e.target.value)} /></label></div><button className="primary-button" disabled={submitting}>{submitting ? "Creating account…" : <><UserPlus size={18} /> Create account</>}</button></form><p className="switch-link">Already registered? <Link to="/login">Sign in</Link></p></AuthShell>;
+    return (
+        <h1>Register</h1>
+    );
 }

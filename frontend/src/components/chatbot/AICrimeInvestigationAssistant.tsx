@@ -21,6 +21,8 @@ import {
   Copy,
   Check
 } from 'lucide-react';
+import { VoiceButton } from '../common/VoiceButton';
+import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
 
 export interface EvidenceTag {
   id: string;
@@ -54,11 +56,30 @@ const PRESET_CASES = [
   { id: 'KSP-2026-0405', title: 'Vehicle Theft Ring - Bengaluru North' },
 ];
 
+import { VoiceButton } from '../common/VoiceButton';
+import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
+
 export const AICrimeInvestigationAssistant: React.FC = () => {
   const [selectedCase, setSelectedCase] = useState<string>('KSP-2026-0891');
   const [input, setInput] = useState<string>('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'chat' | 'evidence' | 'reasoning'>('chat');
+
+  const { isListening, isSupported, startListening, stopListening } = useSpeechRecognition({
+    onResult: (transcriptText, isFinal) => {
+      if (transcriptText) {
+        setInput((prev) => (isFinal ? (prev ? `${prev} ${transcriptText}`.trim() : transcriptText) : prev));
+      }
+    },
+  });
+
+  const toggleMic = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -122,7 +143,7 @@ export const AICrimeInvestigationAssistant: React.FC = () => {
     scrollToBottom();
   }, [messages, isProcessing]);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim() || isProcessing) return;
 
@@ -137,40 +158,30 @@ export const AICrimeInvestigationAssistant: React.FC = () => {
     if (!textToSend) setInput('');
     setIsProcessing(true);
 
-    // Simulate AI Crime Reasoning
-    setTimeout(() => {
+    try {
+      const response = await policeService.chat(query, selectedCase);
       const assistantResponse: Message = {
         id: `msg-${Date.now() + 1}`,
         sender: 'assistant',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        text: `Cross-analysis complete for query: "${query}". System retrieved 3 related crime files from Crime and Criminal Tracking Network & Systems (CCTNS) database.`,
-        reasoningSteps: [
-          {
-            step: 1,
-            description: 'Queries executed across Karnataka CCTNS & CyberCrime Incident Portal.',
-            evidenceRef: ['CCTNS-DB-2026', 'CYBER-PORTAL-IN']
-          },
-          {
-            step: 2,
-            description: 'Semantic vector similarity match score: 0.94 against modus operandi pattern MO-ATM-SKIM-BLR.',
-            evidenceRef: ['MODUS-OPERANDI-PATTERNS']
-          }
-        ],
-        evidenceTags: [
-          { id: 'FIN-STATEMENT-99', title: 'Mule Account Ledger #88', type: 'Financial', confidence: 95.8, summary: 'Immediate fund transfer of ₹4.5L post-incident' }
-        ],
-        IPCSections: [
-          { section: 'Section 318 BNS', title: 'Cheating', relevantClause: 'Dishonest inducement of property delivery' }
-        ],
-        suggestedActions: [
-          'Initiate Bank Account Freeze Request via 1930 Cyber Helpline Interface',
-          'Export Forensic Hash Certificate for Court Admissibility'
-        ]
+        text: response.text,
+        reasoningSteps: response.reasoningSteps,
+        evidenceTags: response.evidenceTags,
+        IPCSections: response.IPCSections,
+        suggestedActions: response.suggestedActions,
       };
-
       setMessages((prev) => [...prev, assistantResponse]);
+    } catch (error) {
+      const errorResponse: Message = {
+        id: `msg-${Date.now() + 1}`,
+        sender: 'assistant',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        text: "Sorry, I'm having trouble connecting to the AI service. Please check the server configuration and try again.",
+      };
+      setMessages((prev) => [...prev, errorResponse]);
+    } finally {
       setIsProcessing(false);
-    }, 1800);
+    }
   };
 
   const handleCopy = (id: string, text: string) => {
@@ -376,7 +387,7 @@ export const AICrimeInvestigationAssistant: React.FC = () => {
                           {msg.suggestedActions.map((action, i) => (
                             <button
                               key={i}
-                              onClick={() => handleSend(`Execute action: ${action}`)}
+                              onClick={() => void handleSend(action)}
                               className="text-xs bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 text-slate-200 hover:text-amber-300 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all text-left"
                             >
                               <Sparkles className="w-3 h-3 text-amber-400 flex-shrink-0" />
@@ -416,11 +427,17 @@ export const AICrimeInvestigationAssistant: React.FC = () => {
               >
                 <Paperclip className="w-4 h-4" />
               </button>
+              <VoiceButton
+                isListening={isListening}
+                isSupported={isSupported}
+                onClick={toggleMic}
+                title={isListening ? "Stop Voice Dictation" : "Start Voice Dictation"}
+              />
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask intelligence questions (e.g., 'Extract suspect associations from call logs')..."
+                placeholder={isListening ? "Listening... Speak your investigation query" : "Ask intelligence questions (e.g., 'Extract suspect associations from call logs')..."}
                 className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/70 focus:ring-1 focus:ring-amber-500/30 transition-all font-sans"
               />
               <button

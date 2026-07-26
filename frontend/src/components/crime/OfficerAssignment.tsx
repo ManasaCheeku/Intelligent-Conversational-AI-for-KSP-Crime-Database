@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Search, ShieldCheck } from "lucide-react";
 import { toast } from "react-toastify";
 import { adminService } from "../../services/adminService";
-import { crimeService } from "../../services/crimeService";
+import { crimeService } from "../../services/crimeService"; // This import is now valid
 import type { Officer } from "../../types/admin";
 
 interface Props { crimeId: string; assignedOfficerId: number | null; onAssigned: () => Promise<void>; }

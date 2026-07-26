@@ -1,6 +1,7 @@
 import api from "./api";
 import type { AssignedCases, Notification, PoliceDashboard, TimelineItem } from "../types/police";
 import type { Crime, CrimeFilters, CrimeStatus } from "../types/crime";
+import type { ChatResponse } from "../types/chatbot";
 export const policeService = {
   dashboard: async (): Promise<PoliceDashboard> => (await api.get("/dashboard/police")).data,
   cases: async (filters: CrimeFilters & { page?: number; page_size?: number } = {}): Promise<AssignedCases> => (await api.get("/crimes/assigned", { params: filters })).data,
@@ -11,4 +12,5 @@ export const policeService = {
   notifications: async (): Promise<Notification[]> => (await api.get("/notifications")).data,
   markRead: async (id: number): Promise<Notification> => (await api.post(`/notifications/${id}/read`)).data,
   ai: async (id: number, language: string): Promise<{ analysis: string; language: string }> => (await api.post(`/crimes/${id}/investigation/ai`, null, { params: { language } })).data,
+  chat: async (query: string, case_id: string): Promise<ChatResponse> => (await api.post("/chatbot/", { query, case_id })).data,
 };

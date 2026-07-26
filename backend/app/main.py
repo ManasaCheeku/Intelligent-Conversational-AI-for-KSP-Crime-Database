@@ -4,8 +4,8 @@ from sqlalchemy import inspect, text
 from app.core.config import settings
 from app.database.database import engine
 from app.database.base import Base
-from app import models
-from app.routers import admin, auth, crimes, dashboard, notifications, users
+from app import models # This now correctly imports all models
+from app.routers import admin, auth, crimes, dashboard, notifications, users, chatbot
 
 app = FastAPI(
     title="KSP IntelliCrime AI",
@@ -72,6 +72,7 @@ app.include_router(crimes.router)
 app.include_router(admin.router)
 app.include_router(dashboard.router)
 app.include_router(notifications.router)
+app.include_router(chatbot.router, prefix="/api/v1/chatbot", tags=["chatbot"])
 
 
 @app.get("/")
