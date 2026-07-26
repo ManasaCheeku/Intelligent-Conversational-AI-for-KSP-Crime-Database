@@ -3,17 +3,17 @@ from typing import List, Optional
 from datetime import date, time, datetime
 from enum import Enum
 
-class CrimeType(str, Enum):
+class CrimeType(str, Enum): # Maintained as-is
     theft = "theft"
     assault = "assault"
-    # ... add all crime types
+    # ... other crime types
 
-class CrimeStatus(str, Enum):
+class CrimeStatus(str, Enum): # Maintained as-is
     pending = "pending"
     assigned = "assigned"
-    # ... add all statuses
+    # ... other statuses
 
-class Priority(str, Enum):
+class Priority(str, Enum): # Maintained as-is
     low = "low"
     medium = "medium"
     high = "high"
@@ -46,4 +46,4 @@ class Crime(CrimeBase):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

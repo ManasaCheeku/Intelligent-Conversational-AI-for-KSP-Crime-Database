@@ -21,6 +21,7 @@ import {
   Copy,
   Check
 } from 'lucide-react';
+import { policeService } from '../../services/policeService'; // Re-added missing import
 import { VoiceButton } from '../common/VoiceButton';
 import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
 
@@ -55,9 +56,6 @@ const PRESET_CASES = [
   { id: 'KSP-2026-1142', title: 'Illegal Trade Syndicate - Mangaluru Port' },
   { id: 'KSP-2026-0405', title: 'Vehicle Theft Ring - Bengaluru North' },
 ];
-
-import { VoiceButton } from '../common/VoiceButton';
-import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
 
 export const AICrimeInvestigationAssistant: React.FC = () => {
   const [selectedCase, setSelectedCase] = useState<string>('KSP-2026-0891');

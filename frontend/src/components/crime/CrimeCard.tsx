@@ -32,7 +32,7 @@ const StatusBadge = ({ status }: { status: CrimeStatus }) => {
 };
 
 export function CrimeCard({ crime }: { crime: Crime }) {
-  const hasEvidence = crime.evidence_items && crime.evidence_items.length > 0;
+  const hasEvidence = (crime.evidence_items?.length ?? 0) > 0;
 
   return (
     <article className="crime-card">
@@ -64,8 +64,8 @@ export function CrimeCard({ crime }: { crime: Crime }) {
             </div>
             <div className="footer-right">
                 {hasEvidence && (
-                  <span className="meta-chip" title={`${crime.evidence_items.length} evidence items`}>
-                    <Paperclip size={14} /> {crime.evidence_items.length}
+                  <span className="meta-chip" title={`${crime.evidence_items?.length} evidence items`}>
+                    <Paperclip size={14} /> {crime.evidence_items?.length}
                   </span>
                 )}
                 <span className="meta-chip" title={`Last updated at ${new Date(crime.updated_at).toLocaleString()}`}>

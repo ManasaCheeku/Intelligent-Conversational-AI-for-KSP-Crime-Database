@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ElementType } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { AlertTriangle, CheckCircle, Clock, Shield, Siren } from "lucide-react";
 import { crimeService } from "../services/crimeService";
@@ -24,8 +24,15 @@ const crimeTypeData = [
   { name: 'Traffic', count: 78 },
 ];
 
+interface MetricCardProps {
+    label: string;
+    value: number | string | undefined;
+    icon: ElementType;
+    colorClass: string;
+}
 
-const MetricCard = ({ label, value, icon: Icon, colorClass }) => (
+
+const MetricCard = ({ label, value, icon: Icon, colorClass }: MetricCardProps) => (
     <div className={`crime-stat-card ${colorClass}`}>
         <div className="stat-header">
             <span className="stat-label">{label}</span>

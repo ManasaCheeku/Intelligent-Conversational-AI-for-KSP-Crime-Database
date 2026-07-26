@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.models.crime import Crime, Evidence
 from app.models.audit_log import AuditLog
 from app.models.notification import Notification
-from app.services.police_service import record_event
+from app.services.police_service import record_event # This service was not provided, assuming it exists
 from app.models.user import User
 from app.schemas.auth import UserRole
 from app.schemas.crime import CrimeCreate, CrimeUpdate

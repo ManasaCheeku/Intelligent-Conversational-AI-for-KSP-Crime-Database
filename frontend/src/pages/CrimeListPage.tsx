@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode, type ElementType } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Search, SearchX } from "lucide-react";
 
@@ -9,7 +9,13 @@ import type { Crime, CrimeFilters } from "../types/crime";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/animations/Loader";
 
-const EmptyState = ({ icon: Icon, title, children }) => (
+interface EmptyStateProps {
+    icon: ElementType;
+    title: string;
+    children: ReactNode;
+}
+
+const EmptyState = ({ icon: Icon, title, children }: EmptyStateProps) => (
     <div className="empty-state-container">
         <div className="empty-state-icon"><Icon size={40} /></div>
         <h2 className="empty-state-title">{title}</h2>

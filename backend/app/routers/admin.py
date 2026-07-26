@@ -5,7 +5,7 @@ from typing import List
 from app.database.database import get_db
 from app.schemas.auth import User as UserSchema, UserRole
 from app.models.user import User
-from app.security.authentication import get_current_active_admin
+from app.services.auth_service import get_current_active_admin
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
