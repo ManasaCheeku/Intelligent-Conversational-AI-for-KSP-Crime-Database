@@ -5,6 +5,7 @@ from app.database.database import get_db
 from app.services import auth_service
 from app.schemas.token import LoginRequest, TokenResponse, RefreshTokenRequest
 from app.schemas.user import UserRegister
+from app.core.security import oauth2_scheme # This import is now correct
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 

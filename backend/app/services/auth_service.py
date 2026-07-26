@@ -3,12 +3,12 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.models.user import User
-from app.schemas.auth import UserRole, User as UserSchema
+from app.schemas.auth import UserRole
 from app.schemas.token import LoginRequest, TokenResponse, RefreshTokenRequest
-from app.schemas.user import UserRegister, UserOut
+from app.schemas.user import UserRegister, UserResponse
 from app.security.hashing import hash_password, verify_password
 from app.security.tokens import create_token, decode_token
-from app.security.dependencies import oauth2_scheme
+from app.core.security import oauth2_scheme # This import is now correct
 from app.database.database import get_db
 
 
@@ -30,7 +30,7 @@ def register_user(db: Session, payload: UserRegister) -> User:
 def issue_tokens(db: Session, user: User) -> TokenResponse:
     access_token, _ = create_token(subject=str(user.id), role=user.role, token_type="access", expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
     refresh_token, _ = create_token(subject=str(user.id), role=user.role, token_type="refresh", expires_delta=timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS))
-    user_data = UserSchema.from_orm(user)
+    user_data = UserResponse.from_attributes(user)
     return TokenResponse(access_token=access_token, refresh_token=refresh_token, user=user_data)
 
 

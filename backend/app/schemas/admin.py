@@ -1,8 +1,7 @@
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, EmailStr
 
 
 class OfficerResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
     id: int
     full_name: str
     badge_number: str | None
@@ -10,3 +9,6 @@ class OfficerResponse(BaseModel):
     email: EmailStr
     station: str | None
     district: str | None
+
+    class Config:
+        from_attributes = True
