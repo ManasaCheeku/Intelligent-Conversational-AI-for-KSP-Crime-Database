@@ -13,3 +13,12 @@ export function UnauthorizedPage() {
         </div>
     );
 }
+
+export function ComingSoonPage() {
+    return (
+        <div className="simple-page" style={{textAlign: 'center', paddingTop: '50px'}}>
+            <h1>Coming Soon</h1>
+            <p>This feature is under development.</p>
+        </div>
+    );
+}

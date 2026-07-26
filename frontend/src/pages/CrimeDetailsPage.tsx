@@ -7,7 +7,7 @@ export function CrimeDetailsPage() {
     if (!id) return <div>Invalid Crime ID</div>;
 
     return (
-        <div>
+        <div className="theme-ai-assistant">
             <h1>Crime Details for #{id}</h1>
             <AIInvestigationAssistant crimeId={parseInt(id, 10)} />
             {/* Other crime details components would go here */}

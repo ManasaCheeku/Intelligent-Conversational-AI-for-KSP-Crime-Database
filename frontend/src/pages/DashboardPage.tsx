@@ -74,7 +74,7 @@ export default function DashboardPage() {
                 .chart-widget-small { grid-column: span 4; }
             }
         `}</style>
-        <main className="page-shell">
+        <main className="page-shell theme-dashboard">
             <div className="page-heading">
                 <div>
                     <p className="eyebrow">Command Center</p>
