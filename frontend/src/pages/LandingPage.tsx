@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navbar } from '../components/landing/Navbar';
 import { Hero } from '../components/landing/Hero';
 import { Features } from '../components/landing/Features';
 import { DashboardPreview } from '../components/landing/DashboardPreview';
@@ -7,7 +6,6 @@ import { DashboardPreview } from '../components/landing/DashboardPreview';
 export const LandingPage: React.FC = () => {
   return (
     <div className="bg-slate-950">
-      <Navbar />
       <main>
         <Hero />
         <Features />
